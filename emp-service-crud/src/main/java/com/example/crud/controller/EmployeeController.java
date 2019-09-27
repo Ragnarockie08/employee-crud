@@ -2,7 +2,8 @@ package com.example.crud.controller;
 
 import com.example.crud.exception.NotFoundException;
 import com.example.crud.model.Employee;
-import com.example.crud.EmployeeService;
+import com.example.crud.service.EmployeeService;
+import com.example.crud.request.EmployeeSearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,12 @@ public class EmployeeController {
     public ResponseEntity<Employee> getEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) throws NotFoundException {
         Employee entity = employeeService.getEmployee(employeeId);
         return ResponseEntity.ok(entity);
+    }
+
+    @PostMapping("/employees/search")
+    public ResponseEntity<List<Employee>> gwtEmployeesByParams(@RequestBody @Valid EmployeeSearchRequest request) throws NotFoundException {
+        List<Employee> entities = employeeService.getEmployeeBySearchPhrase(request);
+        return ResponseEntity.ok(entities);
     }
 
     @PostMapping("/employees")
