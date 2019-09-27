@@ -1,10 +1,11 @@
 package com.example.crud.service;
 
 
-import com.example.crud.EmployeeService;
 import com.example.crud.exception.NotFoundException;
 import com.example.crud.model.Employee;
 import com.example.crud.repository.EmployeeRepository;
+import com.example.crud.repository.EmployeeRepositoryDaoImpl;
+import com.example.crud.request.EmployeeSearchRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,6 +22,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeRepositoryDaoImpl employeeRepositoryDaoImpl;
 
     @Override
     public List<Employee> getAllEmployees() throws NotFoundException {
@@ -43,6 +45,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new NotFoundException("No record found for id: " + employeeId);
         }
         return employee.get();
+    }
+
+    @Override
+    public List<Employee> getEmployeeBySearchPhrase(EmployeeSearchRequest request) throws NotFoundException {
+        if (isEmpty(request.getSearchPhrases())) {
+            return employeeRepository.findAll();
+        }
+        log.info("Search employees with matching phrases={}", request.getSearchPhrases());
+        List<Employee> employees = employeeRepositoryDaoImpl.findByParams(request.getSearchPhrases());
+
+        return employees;
     }
 
     @Override
