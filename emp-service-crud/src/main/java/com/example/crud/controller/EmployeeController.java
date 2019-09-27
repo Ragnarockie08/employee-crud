@@ -2,6 +2,7 @@ package com.example.crud.controller;
 
 import com.example.crud.exception.NotFoundException;
 import com.example.crud.model.Employee;
+import com.example.crud.request.ModifyEmployeeRequest;
 import com.example.crud.service.EmployeeService;
 import com.example.crud.request.EmployeeSearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,9 @@ public class EmployeeController {
         return ResponseEntity.ok(entities);
     }
 
-    @PostMapping("/employees")
-    public ResponseEntity<Employee> addEmployee(@RequestBody @NotNull Employee employee) {
-        Employee entity = employeeService.insertEmployee(employee);
+    @PutMapping("/employees")
+    public ResponseEntity<Employee> addEmployee(@RequestBody @NotNull ModifyEmployeeRequest request) {
+        Employee entity = employeeService.insertEmployee(request);
         return ResponseEntity.ok(entity);
     }
 

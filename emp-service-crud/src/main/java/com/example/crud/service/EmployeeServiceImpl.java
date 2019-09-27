@@ -6,6 +6,8 @@ import com.example.crud.model.Employee;
 import com.example.crud.repository.EmployeeRepository;
 import com.example.crud.repository.EmployeeRepositoryDaoImpl;
 import com.example.crud.request.EmployeeSearchRequest;
+import com.example.crud.request.ModifyEmployeeRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Service
@@ -53,16 +56,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             return employeeRepository.findAll();
         }
         log.info("Search employees with matching phrases={}", request.getSearchPhrases());
-        List<Employee> employees = employeeRepositoryDaoImpl.findByParams(request.getSearchPhrases());
-
-        return employees;
+        return employeeRepositoryDaoImpl.findByParams(request.getSearchPhrases());
     }
 
     @Override
-    public Employee insertEmployee(Employee employee) {
+    public Employee insertEmployee(ModifyEmployeeRequest request) {
 
-        log.info("Insert/update employee={}", employee);
-        return employeeRepository.save(employee);
+        log.info("Insert/update employee={}", request.getEmployee());
+        if (isNull(request.getEmployee())) {
+            return null;
+        }
+        return employeeRepository.save(request.getEmployee());
     }
 
     @Override
