@@ -53,14 +53,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             return employeeRepository.findAll();
         }
         log.info("Search employees with matching phrases={}", request.getSearchPhrases());
-        List<Employee> employees = employeeRepositoryDaoImpl.findByParams(request.getSearchPhrases());
-
-        return employees;
+        return  employeeRepositoryDaoImpl.findByParams(request.getSearchPhrases());
     }
 
     @Override
-    public Employee insertEmployee(Employee employee) {
 
+    public Employee insertEmployee(Employee employee) {
         log.info("Insert/update employee={}", employee);
         return employeeRepository.save(employee);
     }
