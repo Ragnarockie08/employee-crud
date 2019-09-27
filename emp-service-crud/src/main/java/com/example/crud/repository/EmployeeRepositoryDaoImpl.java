@@ -27,8 +27,8 @@ public class EmployeeRepositoryDaoImpl implements EmployeeRepositoryDao {
         Root<Employee> emp = cq.from(Employee.class);
         List<Predicate> predicates = new ArrayList<>();
         for (String parameter: parameters) {
-            predicates.add(cb.like(emp.get("firstName"), parseStringParam(parameter)));
-            predicates.add(cb.like(emp.get("lastName"), parseStringParam(parameter)));
+            predicates.add(cb.like(cb.lower(emp.get("firstName")), parseStringParam(parameter)));
+            predicates.add(cb.like(cb.lower(emp.get("lastName")), parseStringParam(parameter)));
             predicates.add(cb.equal(emp.get("grade"), parseIntParam(parameter)));
             predicates.add(cb.equal(emp.get("salary"), parseIntParam(parameter)));
         }
@@ -38,7 +38,7 @@ public class EmployeeRepositoryDaoImpl implements EmployeeRepositoryDao {
     }
 
     private String parseStringParam(String parameter) {
-        return "%" + parameter + "%";
+        return "%" + parameter.toLowerCase() + "%";
     }
 
     private Integer parseIntParam(String parameter) {
