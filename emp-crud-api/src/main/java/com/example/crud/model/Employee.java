@@ -29,4 +29,15 @@ public class Employee {
 
     @Column(name="salary")
     private Integer salary;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", grade=" + grade +
+                ", salary=" + salary +
+                '}';
+    }
 }
