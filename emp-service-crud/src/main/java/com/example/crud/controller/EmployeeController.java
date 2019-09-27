@@ -1,11 +1,9 @@
 package com.example.crud.controller;
 
-import com.example.crud.exception.RecordNotFoundException;
+import com.example.crud.exception.NotFoundException;
 import com.example.crud.model.Employee;
-import com.example.crud.service.EmployeeService;
+import com.example.crud.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,26 +20,26 @@ public class EmployeeController {
 
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees() throws RecordNotFoundException {
+    public ResponseEntity<List<Employee>> getAllEmployees() throws NotFoundException {
         List<Employee> result = employeeService.getAllEmployees();
 
-        return new ResponseEntity<List<Employee>>(result, new HttpHeaders(), HttpStatus.OK);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) throws RecordNotFoundException {
+    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) throws NotFoundException {
         Employee entity = employeeService.getEmployee(employeeId);
-        return new ResponseEntity<Employee>(entity, new HttpHeaders(), HttpStatus.OK);
+        return ResponseEntity.ok(entity);
     }
 
     @PostMapping("/employees")
     public ResponseEntity<Employee> addEmployee(@RequestBody @NotNull Employee employee) {
         Employee entity = employeeService.insertEmployee(employee);
-        return new ResponseEntity<Employee>(employee, new HttpHeaders(), HttpStatus.OK);
+        return ResponseEntity.ok(entity);
     }
 
     @DeleteMapping("/employees/{id}")
-    public void deleteEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) {
+    public void deleteEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) throws NotFoundException {
         employeeService.deleteEmployee(employeeId);
     }
 }

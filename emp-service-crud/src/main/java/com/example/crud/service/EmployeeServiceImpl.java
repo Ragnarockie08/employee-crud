@@ -1,10 +1,13 @@
 package com.example.crud.service;
 
 
-import com.example.crud.exception.RecordNotFoundException;
+import com.example.crud.EmployeeService;
+import com.example.crud.exception.NotFoundException;
 import com.example.crud.model.Employee;
 import com.example.crud.repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,41 +16,50 @@ import java.util.Optional;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Service
+@Slf4j
+@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
-    public List<Employee> getAllEmployees() throws RecordNotFoundException {
+    public List<Employee> getAllEmployees() throws NotFoundException {
 
         List<Employee> employees = employeeRepository.findAll();
-
+        log.info("Retrieve all employees={}", employees);
         if (isEmpty(employees)) {
-            throw new RecordNotFoundException("No records found");
+            throw new NotFoundException("No records found");
         }
         return employees;
     }
 
     @Override
-    public Employee getEmployee(Long employeeId) throws RecordNotFoundException {
+    public Employee getEmployee(Long employeeId) throws NotFoundException {
+
+        log.info("Retrieve employee with id={}", employeeId);
         Optional<Employee> employee = employeeRepository.findById(employeeId);
 
         if (!employee.isPresent()) {
-            throw new RecordNotFoundException("No record found for id: " + employeeId);
+            throw new NotFoundException("No record found for id: " + employeeId);
         }
         return employee.get();
     }
 
     @Override
     public Employee insertEmployee(Employee employee) {
-        Employee emp = employeeRepository.save(employee);
 
-        return emp;
+        log.info("Insert/update employee={}", employee);
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public void deleteEmployee(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
+    public void deleteEmployee(Long employeeId) throws NotFoundException{
+
+        log.info("Delete employee with id={}", employeeId);
+        try {
+            employeeRepository.deleteById(employeeId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No record found for id=" + employeeId);
+        }
     }
 }
