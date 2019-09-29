@@ -1,7 +1,7 @@
 package com.example.crud.repository;
 
 import com.example.crud.model.Employee;
-import com.example.crud.service.EmployeeRepositoryDao;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class EmployeeRepositoryDaoImpl implements EmployeeRepositoryDao {
+public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
 
     private EntityManager em;
 
