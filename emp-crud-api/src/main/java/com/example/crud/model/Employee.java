@@ -6,9 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name="EMPLOYEES")
+@DynamicUpdate
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -19,9 +23,11 @@ public class Employee {
     private Long id;
 
     @Column(name="name")
+    @NotBlank(message = "First name can't be blank")
     private String firstName;
 
     @Column(name="surname")
+    @NotBlank(message = "Last name can't be blank")
     private String lastName;
 
     @Column(name="grade")

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) throws NotFoundException {
+    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "id") @Valid Long employeeId) throws NotFoundException {
         Employee entity = employeeService.getEmployee(employeeId);
         return ResponseEntity.ok(entity);
     }
@@ -40,13 +39,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> addEmployee(@RequestBody @NotNull Employee employee) {
+    public ResponseEntity<Employee> addEmployee(@RequestBody @Valid Employee employee) {
         Employee entity = employeeService.insertEmployee(employee);
         return ResponseEntity.ok(entity);
     }
 
     @DeleteMapping("/employees/{id}")
-    public void deleteEmployee(@PathVariable(name = "id") @Valid @NotNull Long employeeId) throws NotFoundException {
+    public void deleteEmployee(@PathVariable(name = "id") @Valid Long employeeId) throws NotFoundException {
         employeeService.deleteEmployee(employeeId);
     }
 }
