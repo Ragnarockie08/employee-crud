@@ -1,6 +1,7 @@
-package com.example.crud.repository;
+package com.example.crud.repository.impl;
 
 import com.example.crud.model.Employee;
+import com.example.crud.repository.EmployeeRepositoryCustom;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

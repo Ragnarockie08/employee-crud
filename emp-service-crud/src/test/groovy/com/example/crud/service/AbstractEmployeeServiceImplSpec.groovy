@@ -4,7 +4,7 @@ import com.example.crud.model.Employee
 import com.example.crud.request.EmployeeSearchRequest
 import spock.lang.Specification
 
-abstract class AbstractEmployeeServiceImplTest extends Specification {
+abstract class AbstractEmployeeServiceImplSpec extends Specification {
 
 
     def buildEmployeeList() {

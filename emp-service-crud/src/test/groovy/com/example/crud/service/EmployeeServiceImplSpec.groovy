@@ -12,7 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException
  *
  * @author igbo <a href="http://www.ailleron.com">AILLERON S.A.</a>
  */
-class EmployeeServiceImplTest extends AbstractEmployeeServiceImplTest {
+class EmployeeServiceImplSpec extends AbstractEmployeeServiceImplSpec {
   EmployeeServiceImpl employeeService;
   def employeeRepository = Mock(EmployeeRepository)
   void setup() {
